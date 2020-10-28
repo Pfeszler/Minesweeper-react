@@ -4,7 +4,8 @@ import { createSlice } from "@reduxjs/toolkit"
 const gameSlice = createSlice({
     name: "game",
     initialState: {
-        started: false
+        started: false,
+        fields: [],
     },
     reducers: {
         startGame: state => {
@@ -21,4 +22,5 @@ export const {
 
 export const selectGame = state => state.game;
 export const selectStarted = state => selectGame(state).started
+export const selectFields = state => selectGame(state).fields
 export default gameSlice.reducer
