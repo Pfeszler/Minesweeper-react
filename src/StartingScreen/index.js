@@ -1,11 +1,23 @@
 import React from "react"
+import { useSelector } from "react-redux"
+import { selectStarted } from "../gameSlice"
 
 
 const StartingScreen = () => {
-    return(
+
+    const started = useSelector(selectStarted)
+
+    return (
+        <>
+        { started ?
         <button>
-            Start
+            reset
+        </button > :
+        <button>
+            start
         </button>
+    }
+        </>
     )
 }
 
