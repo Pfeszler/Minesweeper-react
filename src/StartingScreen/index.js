@@ -1,22 +1,30 @@
 import React from "react"
-import { useSelector } from "react-redux"
-import { selectStarted } from "../gameSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { selectStarted, startGame } from "../gameSlice"
 
 
 const StartingScreen = () => {
 
     const started = useSelector(selectStarted)
+    const dispatch = useDispatch()
+
+    const onStartClick = () => {
+        dispatch(startGame())
+    }
 
     return (
         <>
-        { started ?
-        <button>
-            reset
+            { started ?
+                <button
+                >
+                    reset
         </button > :
-        <button>
-            start
+                <button
+                    onClick={() => onStartClick()}
+                >
+                    start
         </button>
-    }
+            }
         </>
     )
 }
