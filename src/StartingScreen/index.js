@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { selectStarted, setDimensions, startGame } from "../gameSlice"
+import { generateFields, selectStarted, setDimensions, startGame } from "../gameSlice"
 
 
 const StartingScreen = () => {
@@ -11,6 +11,7 @@ const StartingScreen = () => {
     const onStartClick = () => {
         dispatch(startGame());
         dispatch(setDimensions({ height: 8, width: 8 }));
+        dispatch(generateFields())
     }
 
     return (

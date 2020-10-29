@@ -19,7 +19,18 @@ const gameSlice = createSlice({
         setDimensions: (state, { payload }) => {
             state.dimensions.height = payload.height;
             state.dimensions.width = payload.width;
-            state.dimensions.area = payload.width * payload.height
+            state.dimensions.area = payload.width * payload.height;
+        },
+        generateFields: (state) => {
+            const dimensions = state.dimensions;
+            let i;
+            for (i = 1; i < dimensions.area + 1; i++) {
+                state.fields.push({
+                    id: i,
+                }
+                );
+            };
+
         },
 
     }
@@ -29,6 +40,7 @@ const gameSlice = createSlice({
 export const {
     startGame,
     setDimensions,
+    generateFields,
 } = gameSlice.actions;
 
 export const selectGame = state => state.game;

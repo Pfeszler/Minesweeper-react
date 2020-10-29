@@ -6,7 +6,7 @@ import { Button, Grid } from "./styled"
 
 const GameField = () => {
 
-    const fields = useSelector(selectFields)
+    const fields = useSelector(selectFields);
 
     return (
         <Grid>
@@ -14,7 +14,7 @@ const GameField = () => {
                 <Button
                     key={field.id}
                 >
-
+                    {field.id}
                 </Button>
             )
             }
