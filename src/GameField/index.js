@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { generateMines, markField, plantMines, selectFields, selectStartingId, setStartingId, uncoverField } from "../gameSlice"
+import { generateMines, markField, plantMines, selectFields, selectStartingId, setMinesAround, setStartingId, uncoverField } from "../gameSlice"
 import { Button, Grid } from "./styled"
 
 
@@ -14,8 +14,9 @@ const GameField = () => {
         const i = id - 1;
         dispatch(generateMines({ quantity: 10, id: id }));
         dispatch(plantMines());
+        dispatch(setMinesAround())
         dispatch(uncoverField(i));
-        dispatch(setStartingId(id))
+        dispatch(setStartingId(id));
     };
 
     const onLeftClick = (id) => {
@@ -38,7 +39,8 @@ const GameField = () => {
                     onClick={startingId ? () => onLeftClick(field.id) : () => onFirstClick(field.id)}
                     onContextMenu={(event) => onRightClick(event, field.id)}
                 >
-                    {field.marked ? "!" : field.id} {field.mine ? "@" : ""}
+                    {field.uncovered ? (field.mine ? "!" : (field.minesAround === 0 ? "" : field.minesAround)) : ""}
+                    {field.marked ? "@" : ""}
                 </Button>
             )
             }

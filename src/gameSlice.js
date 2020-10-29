@@ -10,6 +10,8 @@ const gameSlice = createSlice({
             width: 0,
             height: 0,
             area: 0,
+            adjacentFields: [],
+
         },
         fields: [],
         startingId: false,
@@ -37,7 +39,8 @@ const gameSlice = createSlice({
                     uncovered: false,
                     marked: false,
                     mine: false,
-                    adjacentFields: []
+                    adjacentFields: [],
+                    minesAround: 0
                 }
                 );
             };
@@ -79,6 +82,21 @@ const gameSlice = createSlice({
                 }
             })
         },
+        setMinesAround: (state) => {
+            const fields = state.fields
+            const minedFields = fields.filter(({ mine }) => mine === true)
+
+            fields.forEach((field) => {
+                let minesAroundList = []
+                field.adjacentFields.forEach((number) => {
+                    const mineAround = minedFields.filter(({ id }) => id === number);
+                    if (mineAround.length > 0) {
+                        minesAroundList.push(mineAround)
+                    }
+                })
+                field.minesAround = minesAroundList.length
+            })
+        },
         uncoverField: (state, { payload }) => {
             const i = payload
             state.fields[i].uncovered = true;
@@ -103,6 +121,7 @@ export const {
     setStartingId,
     generateMines,
     plantMines,
+    setMinesAround,
     uncoverField,
     markField,
 } = gameSlice.actions;
