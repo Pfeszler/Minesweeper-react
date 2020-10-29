@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { selectFields, uncoverField } from "../gameSlice"
+import { markField, selectFields, uncoverField } from "../gameSlice"
 import { Button, Grid } from "./styled"
 
 
@@ -14,6 +14,12 @@ const GameField = () => {
         dispatch(uncoverField(i));
     };
 
+    const onRightClick = (event,id) => {
+        event.preventDefault()
+        const i = id - 1;
+        dispatch(markField(i))
+    }
+
     return (
         <Grid>
             {fields.map((field) =>
@@ -21,8 +27,9 @@ const GameField = () => {
                     key={field.id}
                     disabled={field.uncovered}
                     onClick={() => onLeftClick(field.id)}
+                    onContextMenu={(event) => onRightClick(event, field.id)}
                 >
-                    {field.id}
+                    {field.marked ? "!" : field.id}
                 </Button>
             )
             }

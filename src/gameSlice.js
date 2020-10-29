@@ -27,7 +27,8 @@ const gameSlice = createSlice({
             for (i = 1; i < dimensions.area + 1; i++) {
                 state.fields.push({
                     id: i,
-                    uncovered: false
+                    uncovered: false,
+                    marked: false
                 }
                 );
             };
@@ -37,9 +38,12 @@ const gameSlice = createSlice({
             const i = payload
             state.fields[i].uncovered = true
         },
+        markField: (state, { payload }) => {
+            const i = payload
+            state.fields[i].marked = !state.fields[i].marked
+        }
 
     }
-
 });
 
 export const {
@@ -47,6 +51,7 @@ export const {
     setDimensions,
     generateFields,
     uncoverField,
+    markField
 } = gameSlice.actions;
 
 export const selectGame = state => state.game;
