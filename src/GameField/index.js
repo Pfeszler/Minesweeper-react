@@ -1,20 +1,27 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { markField, selectFields, uncoverField } from "../gameSlice"
+import { generateMines, markField, plantMines, selectFields, selectStartingId, setStartingId, uncoverField } from "../gameSlice"
 import { Button, Grid } from "./styled"
 
 
 const GameField = () => {
 
     const fields = useSelector(selectFields);
+    const startingId = useSelector(selectStartingId)
     const dispatch = useDispatch();
+
+    const onFirstClick = (id) => {
+        dispatch(generateMines({ quantity: 10, id: id }));
+        dispatch(plantMines());
+        dispatch(setStartingId(id))
+    };
 
     const onLeftClick = (id) => {
         const i = id - 1;
         dispatch(uncoverField(i));
     };
 
-    const onRightClick = (event,id) => {
+    const onRightClick = (event, id) => {
         event.preventDefault()
         const i = id - 1;
         dispatch(markField(i))
@@ -26,10 +33,10 @@ const GameField = () => {
                 <Button
                     key={field.id}
                     disabled={field.uncovered}
-                    onClick={() => onLeftClick(field.id)}
+                    onClick={startingId ? () => onLeftClick(field.id) : () => onFirstClick(field.id)}
                     onContextMenu={(event) => onRightClick(event, field.id)}
                 >
-                    {field.marked ? "!" : field.id}
+                    {field.marked ? "!" : field.id} {field.mine ? "@" : ""}
                 </Button>
             )
             }
