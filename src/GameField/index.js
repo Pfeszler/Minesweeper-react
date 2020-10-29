@@ -11,8 +11,10 @@ const GameField = () => {
     const dispatch = useDispatch();
 
     const onFirstClick = (id) => {
+        const i = id - 1;
         dispatch(generateMines({ quantity: 10, id: id }));
         dispatch(plantMines());
+        dispatch(uncoverField(i));
         dispatch(setStartingId(id))
     };
 

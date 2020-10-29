@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { setAdjacentFields } from "./setAdjacentFields";
 
 
 const gameSlice = createSlice({
@@ -34,14 +35,23 @@ const gameSlice = createSlice({
                 state.fields.push({
                     id: i,
                     uncovered: false,
-                    marked: false
+                    marked: false,
+                    mine: false,
+                    adjacentFields: []
                 }
                 );
             };
 
         },
+        addAdjacentFields: (state) => {
+            const fields = state.fields;
+            const dimensions = state.dimensions;
+            fields.forEach((field) => {
+                field.adjacentFields = setAdjacentFields(dimensions, field);
+            });
+        },
         setStartingId: (state, { payload }) => {
-            state.startingId = payload
+            state.startingId = payload;
         },
         generateMines: ({ mines, dimensions }, { payload }) => {
             const area = dimensions.area;
@@ -89,6 +99,7 @@ export const {
     startGame,
     setDimensions,
     generateFields,
+    addAdjacentFields,
     setStartingId,
     generateMines,
     plantMines,
