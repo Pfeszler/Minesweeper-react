@@ -27,10 +27,15 @@ const gameSlice = createSlice({
             for (i = 1; i < dimensions.area + 1; i++) {
                 state.fields.push({
                     id: i,
+                    uncovered: false
                 }
                 );
             };
 
+        },
+        uncoverField: (state, { payload }) => {
+            const i = payload
+            state.fields[i].uncovered = true
         },
 
     }
@@ -41,6 +46,7 @@ export const {
     startGame,
     setDimensions,
     generateFields,
+    uncoverField,
 } = gameSlice.actions;
 
 export const selectGame = state => state.game;
