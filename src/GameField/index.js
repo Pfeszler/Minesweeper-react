@@ -7,8 +7,10 @@ import {
     selectFields,
     selectStartingId,
     selectUncoveredFields,
+    selectWin,
     setMinesAround,
     setStartingId,
+    setWin,
     uncoverField,
     uncoverSafeFields,
     uncoverWhenSomethingUncovered
@@ -20,12 +22,13 @@ const GameField = () => {
 
     const fields = useSelector(selectFields);
     const startingId = useSelector(selectStartingId);
-    const uncoveredField = useSelector(selectUncoveredFields)
+    const uncoveredField = useSelector(selectUncoveredFields);
+    const win = useSelector(selectWin);
 
     const dispatch = useDispatch();
 
     useEffect(() => { dispatch(uncoverWhenSomethingUncovered()) }, [uncoveredField, dispatch])
-
+    
     const onFirstClick = (id) => {
         dispatch(generateMines({ quantity: 10, id: id }));
         dispatch(plantMines());
@@ -49,23 +52,29 @@ const GameField = () => {
         event.preventDefault()
         const i = id - 1;
         dispatch(markField(i))
+        dispatch(setWin())
     }
 
     return (
-        <Grid>
-            {fields.map((field) =>
-                <Button
-                    key={field.id}
-                    disabled={field.uncovered}
-                    onClick={startingId ? () => onLeftClick(field.id) : () => onFirstClick(field.id)}
-                    onContextMenu={(event) => onRightClick(event, field.id)}
-                >
-                    {field.uncovered ? (field.mine ? "!" : (field.minesAround === 0 ? "" : field.minesAround)) : ""}
-                    {field.marked ? "@" : ""}
-                </Button>
-            )
+        <>
+            {win ?
+            <h1>You Won</h1> :
+                <Grid>
+                    {fields.map((field) =>
+                        <Button
+                            key={field.id}
+                            disabled={field.uncovered}
+                            onClick={startingId ? () => onLeftClick(field.id) : () => onFirstClick(field.id)}
+                            onContextMenu={(event) => onRightClick(event, field.id)}
+                        >
+                            {field.uncovered ? (field.mine ? "!" : (field.minesAround === 0 ? "" : field.minesAround)) : ""}
+                            {field.marked ? "@" : ""}
+                        </Button>
+                    )
+                    }
+                </Grid>
             }
-        </Grid>
+        </>
     )
 }
 
