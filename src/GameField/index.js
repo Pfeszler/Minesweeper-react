@@ -4,6 +4,7 @@ import {
     generateMines,
     markField,
     plantMines,
+    resetGame,
     selectFields,
     selectStartingId,
     selectUncoveredFields,
@@ -28,7 +29,7 @@ const GameField = () => {
     const dispatch = useDispatch();
 
     useEffect(() => { dispatch(uncoverWhenSomethingUncovered()) }, [uncoveredField, dispatch])
-    
+
     const onFirstClick = (id) => {
         dispatch(generateMines({ quantity: 10, id: id }));
         dispatch(plantMines());
@@ -41,6 +42,7 @@ const GameField = () => {
         dispatch(uncoverField(i));
         if (fields[i].mine) {
             alert("przegrałeś")
+            dispatch(resetGame())
         }
         if (fields[i].minesAround === 0 && fields[i].mine === false) {
             dispatch(uncoverSafeFields(i))
@@ -58,7 +60,7 @@ const GameField = () => {
     return (
         <>
             {win ?
-            <h1>You Won</h1> :
+                <h1>You Won</h1> :
                 <Grid>
                     {fields.map((field) =>
                         <Button

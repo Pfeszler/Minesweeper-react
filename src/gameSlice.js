@@ -18,7 +18,6 @@ const gameSlice = createSlice({
         mines: {
             quantity: 0,
             ids: [],
-            marked: [],
         },
         uncoveredFields: [],
         win: false
@@ -134,11 +133,7 @@ const gameSlice = createSlice({
         },
         markField: (state, { payload }) => {
             const i = payload;
-            const mines = state.mines;
             state.fields[i].marked = !state.fields[i].marked;
-            if (state.fields[i].mine === true && !(mines.marked.includes(state.fields[i].id))) {
-                mines.marked.push(state.fields[i])
-            };
         },
         setWin: (state) => {
             const fields = state.fields
@@ -148,8 +143,16 @@ const gameSlice = createSlice({
                 state.win = true
             }
         },
-
-
+        resetGame: (state) => {
+            state.fields = []
+            state.mines = {
+                quantity: 0,
+                ids: [],
+            };
+            state.uncoveredFields = [];
+            state.startingId = undefined;
+            state.win = false
+        }
     }
 });
 
@@ -167,6 +170,7 @@ export const {
     uncoverWhenSomethingUncovered,
     markField,
     setWin,
+    resetGame
 } = gameSlice.actions;
 
 export const selectGame = state => state.game;
