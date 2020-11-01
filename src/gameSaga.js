@@ -1,5 +1,5 @@
 import { put, select, takeLatest, } from "redux-saga/effects"
-import { selectStartingId, setStartingId, uncoverField,  } from "./gameSlice"
+import { selectStartingId, setStartingId, uncoverField, } from "./gameSlice"
 
 function* setStartingIDhandler() {
     const id = yield select(selectStartingId)

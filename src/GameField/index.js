@@ -1,14 +1,30 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { generateMines, markField, plantMines, selectFields, selectStartingId, setMinesAround, setStartingId, uncoverField, uncoverSafeFields } from "../gameSlice"
+import {
+    generateMines,
+    markField,
+    plantMines,
+    selectFields,
+    selectStartingId,
+    selectUncoveredFields,
+    setMinesAround,
+    setStartingId,
+    uncoverField,
+    uncoverSafeFields,
+    uncoverWhenSomethingUncovered
+} from "../gameSlice"
 import { Button, Grid } from "./styled"
 
 
 const GameField = () => {
 
     const fields = useSelector(selectFields);
-    const startingId = useSelector(selectStartingId)
+    const startingId = useSelector(selectStartingId);
+    const uncoveredField = useSelector(selectUncoveredFields)
+
     const dispatch = useDispatch();
+
+    useEffect(() => { dispatch(uncoverWhenSomethingUncovered()) }, [uncoveredField, dispatch])
 
     const onFirstClick = (id) => {
         dispatch(generateMines({ quantity: 10, id: id }));

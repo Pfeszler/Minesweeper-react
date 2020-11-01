@@ -20,6 +20,7 @@ const gameSlice = createSlice({
             ids: [],
             marked: [],
         },
+        uncoveredFields: [],
     },
     reducers: {
         startGame: state => {
@@ -100,6 +101,7 @@ const gameSlice = createSlice({
         uncoverField: (state, { payload }) => {
             const i = payload
             state.fields[i].uncovered = true;
+            state.uncoveredFields.push(state.fields[i].id)
         },
         uncoverSafeFields: (state, { payload }) => {
             const fields = state.fields;
@@ -107,7 +109,27 @@ const gameSlice = createSlice({
             fields[i].adjacentFields.forEach((number) => {
                 const adjacenField = fields.find(({ id }) => id === number);
                 adjacenField.uncovered = true;
+                state.uncoveredFields.push(adjacenField.id)
             })
+        },
+        uncoverWhenSomethingUncovered: (state) => {
+            const fields = state.fields
+            fields.forEach((field) => {
+                if (field.mine === false && field.uncovered === false) {
+                    let adjacentList = []
+                    field.adjacentFields.forEach((number) => {
+                        const adjacenField = fields.find(({ id }) => id === number)
+                        adjacentList.push(adjacenField)
+                    })
+                    const adjacentSafeFields = adjacentList.find(({ mine, uncovered, minesAround }) => (
+                        mine === false && uncovered === true && minesAround === 0))
+                    if (adjacentSafeFields !== undefined) {
+                        field.uncovered = true
+                        state.uncoveredFields.push(field.id)
+                    }
+                }
+            });
+
         },
         markField: (state, { payload }) => {
             const i = payload;
@@ -130,8 +152,9 @@ export const {
     generateMines,
     plantMines,
     setMinesAround,
-    uncoverSafeFields,
     uncoverField,
+    uncoverSafeFields,
+    uncoverWhenSomethingUncovered,
     markField,
 } = gameSlice.actions;
 
@@ -141,4 +164,5 @@ export const selectDimensions = state => selectGame(state).dimensions
 export const selectFields = state => selectGame(state).fields
 export const selectStartingId = state => selectGame(state).startingId;
 export const selectMines = state => selectGame(state).mines;
+export const selectUncoveredFields = state => selectGame(state).uncoveredFields
 export default gameSlice.reducer
