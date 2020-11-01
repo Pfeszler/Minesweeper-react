@@ -101,6 +101,14 @@ const gameSlice = createSlice({
             const i = payload
             state.fields[i].uncovered = true;
         },
+        uncoverSafeFields: (state, { payload }) => {
+            const fields = state.fields;
+            const i = payload;
+            fields[i].adjacentFields.forEach((number) => {
+                const adjacenField = fields.find(({ id }) => id === number);
+                adjacenField.uncovered = true;
+            })
+        },
         markField: (state, { payload }) => {
             const i = payload;
             const mines = state.mines;
@@ -122,6 +130,7 @@ export const {
     generateMines,
     plantMines,
     setMinesAround,
+    uncoverSafeFields,
     uncoverField,
     markField,
 } = gameSlice.actions;

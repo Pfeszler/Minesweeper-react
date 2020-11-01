@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { generateMines, markField, plantMines, selectFields, selectStartingId, setMinesAround, setStartingId, uncoverField } from "../gameSlice"
+import { generateMines, markField, plantMines, selectFields, selectStartingId, setMinesAround, setStartingId, uncoverField, uncoverSafeFields } from "../gameSlice"
 import { Button, Grid } from "./styled"
 
 
@@ -11,17 +11,22 @@ const GameField = () => {
     const dispatch = useDispatch();
 
     const onFirstClick = (id) => {
-        const i = id - 1;
         dispatch(generateMines({ quantity: 10, id: id }));
         dispatch(plantMines());
         dispatch(setMinesAround())
-        dispatch(uncoverField(i));
         dispatch(setStartingId(id));
     };
 
     const onLeftClick = (id) => {
         const i = id - 1;
         dispatch(uncoverField(i));
+        if (fields[i].mine) {
+            alert("przegrałeś")
+        }
+        if (fields[i].minesAround === 0 && fields[i].mine === false) {
+            dispatch(uncoverSafeFields(i))
+        }
+
     };
 
     const onRightClick = (event, id) => {
