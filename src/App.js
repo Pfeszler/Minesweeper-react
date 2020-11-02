@@ -1,13 +1,14 @@
 import React from "react"
 import GameField from "./GameField"
+import { GlobalStyle } from "./GlobalStyles"
 import StartingScreen from "./StartingScreen"
 
 function App() {
   return (
-    <div>
+    <GlobalStyle>
       <StartingScreen />
       <GameField />
-    </div>
+    </GlobalStyle>
   );
 }
 
