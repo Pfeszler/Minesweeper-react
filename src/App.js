@@ -4,7 +4,7 @@ import { ThemeProvider } from "styled-components"
 import { theme } from "./theme"
 import GameField from "./GameField"
 import StartingScreen from "./StartingScreen"
-import Container from "./GameField/Container"
+import Container from "./Container"
 
 
 function App() {
