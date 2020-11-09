@@ -6,21 +6,21 @@ import { startGame, setDimensions, generateFields, addAdjacentFields, resetGame 
 const useStartingScreen = () => {
     const dispatch = useDispatch();
 
-    const setNewGame = () => {
+    const setNewGame = (height, width) => {
         dispatch(setDimensions({ height: 8, width: 8 }));
         dispatch(generateFields())
         dispatch(addAdjacentFields())
     }
 
-    const onStartClick = () => {
+    const onStartClick = (height, width) => {
         dispatch(startGame());
-        setNewGame();
+        setNewGame(height, width);
 
     }
 
-    const onResetClick = () => {
+    const onResetClick = (height, width) => {
         dispatch(resetGame());
-        setNewGame();
+        setNewGame(height, width);
     }
 
     return [onStartClick, onResetClick]

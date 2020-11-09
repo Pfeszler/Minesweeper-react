@@ -1,6 +1,7 @@
 import React from "react"
 import { useSelector } from "react-redux"
 import {
+    selectDimensions,
     selectFields,
     selectStartingId,
     selectWin,
@@ -14,6 +15,7 @@ const GameField = () => {
     const fields = useSelector(selectFields);
     const startingId = useSelector(selectStartingId);
     const win = useSelector(selectWin);
+    const dimensions = useSelector(selectDimensions)
 
     const [onFirstClick, onLeftClick, onRightClick] = useGameField()
 
@@ -21,7 +23,10 @@ const GameField = () => {
         <>
             {win ?
                 <h1>You Won</h1> :
-                <Grid>
+                <Grid
+                    width={dimensions.width}
+                    height={dimensions.height}
+                >
                     {fields.map((field) =>
                         <Button
                             key={field.id}
