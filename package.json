@@ -2,7 +2,7 @@
   "name": "minesweeper-react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://pfeszler.github.io/minesweeper-react",
+  "homepage": "https://pfeszler.github.io/Minesweeper-react",
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^5.11.5",
