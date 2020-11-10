@@ -1,7 +1,6 @@
 Work still in progress, visual aspects may be poor and some features may not work
 
-Demo: 
-[Here](https://pfeszler.github.io/Minesweeper-react/)
+
 
 # Getting Started with Create React App
 
